@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:object="${PlaySoccer}" action="create" method="post">
+  mã cầu thủ
+  <input th:field="*{code}">
+    họ và tên
+  <input th:field="*{fullName}">
+    ngày sinh
+  <input th:field="*{date}">
+    kinh nghiệm
+  <input th:field="*{experience}">
+    vị trí
+  <select th:field="*{position}">
+    <option th:each="p :${list}" th:value="${p.id}" th:text="${p.name}"></option>
+  </select>
+    ảnh
+    <input th:field="*{image}">
+    <button type="submit">lưu</button>
+</form>
+</body>
+</html>

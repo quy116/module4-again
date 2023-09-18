@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <tr>
+        <Th>id</Th>
+        <Th>mã cầu thủ</Th>
+        <Th>họ và tên</Th>
+        <Th>ngày sinh</Th>
+        <Th>kinh nghiệm</Th>
+        <Th>vị trí</Th>
+        <Th>ảnh đại diện</Th>
+    </tr>
+    <tr th:object="${playSoccer}">
+        <td th:text="*{id}"></td>
+        <td th:text="*{code}"></td>
+        <td th:text="*{fullName}"></td>
+        <td th:text="*{date}"></td>
+        <td th:text="*{experience}"></td>
+        <td th:text="*{position.name}"></td>
+        <td><img th:src="*{image}" alt="mều" style="width: 4rem;height: 4rem"></td>
+<!--        <td><a th:href="@{delete/(id=${id})}">xoá</a></td>-->
+
+    </tr>
+</table>
+</body>
+</html>
