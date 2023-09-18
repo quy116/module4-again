@@ -18,32 +18,50 @@ public class PlaySoccerController {
     private IPlaySoccerService iPlaySoccerService;
     @Autowired
     private IPositionService iPositionService;
+
     @GetMapping("/")
-    public String showList(Model model){
+    public String showList(Model model) {
         model.addAttribute("list", iPlaySoccerService.showList());
         return "list";
     }
-    @GetMapping("showDetail")
-    public String showDetail(@RequestParam int id, Model model){
-     PlayerSoccer playerSoccer = iPlaySoccerService.findById(id);
-     model.addAttribute("playSoccer", playerSoccer);
-     model.addAttribute("id", playerSoccer.getId());
+
+    @GetMapping("/showDetail")
+    public String showDetail(@RequestParam int id, Model model) {
+        PlayerSoccer playerSoccer = iPlaySoccerService.findById(id);
+        model.addAttribute("playSoccer", playerSoccer);
+        model.addAttribute("id", playerSoccer.getId());
         return "detail";
     }
-    @GetMapping("delete")
-    public String delete(@RequestParam int id){
+
+    @GetMapping("/delete")
+    public String delete(@RequestParam int id) {
         iPlaySoccerService.deleteById(id);
         return "redirect:/";
     }
-    @GetMapping("showCreate")
-    public String showCreate(Model model){
+
+    @GetMapping("/showCreate")
+    public String showCreate(Model model) {
         model.addAttribute("PlaySoccer", new PlayerSoccer());
         model.addAttribute("list", iPositionService.showList());
         return "create";
     }
-    @PostMapping("create")
-    public String create(@ModelAttribute PlayerSoccer playerSoccer ){
+
+    @PostMapping("/create")
+    public String create(@ModelAttribute PlayerSoccer playerSoccer) {
         iPlaySoccerService.add(playerSoccer);
+        return "redirect:/";
+    }
+
+    @GetMapping("/showEdit{id}")
+    public String showEdit(@RequestParam int id, Model model) {
+        PlayerSoccer playerSoccer = iPlaySoccerService.findById(id);
+        model.addAttribute("playSoccer", playerSoccer);
+        model.addAttribute("list", iPositionService.showList());
+        return "edit";
+    }
+    @PostMapping ("/edit")
+    public String edit(PlayerSoccer playSoccer) {
+        iPlaySoccerService.edit(playSoccer);
         return "redirect:/";
     }
 }

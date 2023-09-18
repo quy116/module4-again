@@ -33,4 +33,11 @@ public class PlaySoccerService implements IPlaySoccerService {
     public void add(PlayerSoccer playerSoccer) {
         iPlaySoccerRepository.save(playerSoccer);
     }
+
+    @Override
+    public void edit(PlayerSoccer playSoccer) {
+        iPlaySoccerRepository.save(playSoccer);
+    }
+
+
 }

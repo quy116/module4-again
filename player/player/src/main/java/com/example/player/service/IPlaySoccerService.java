@@ -12,4 +12,6 @@ public interface IPlaySoccerService {
     void deleteById(int id);
 
     void add(PlayerSoccer playerSoccer);
+    void edit(PlayerSoccer playSoccer);
+
 }
