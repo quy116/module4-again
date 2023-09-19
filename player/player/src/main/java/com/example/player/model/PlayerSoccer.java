@@ -9,6 +9,7 @@ public class PlayerSoccer {
     private int id;
     private String code;
     private String fullName;
+    @Column(columnDefinition = "DATE")
     private String date;
     private String experience;
     private String image;

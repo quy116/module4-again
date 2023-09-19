@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -43,9 +44,11 @@ public class PlaySoccerService implements IPlaySoccerService {
     }
 
     @Override
-    public Page<PlayerSoccer> showListPage(Pageable pageable) {
-
-        return iPlaySoccerRepository.findAll(pageable);
+    public Page<PlayerSoccer> showListPage(Pageable pageable, String searchName, String startDay, String startEnd) {
+        if (startDay.equals("") && startEnd.equals("")){
+         return   iPlaySoccerRepository.findAllByFullNameContaining("%" + searchName + "%", pageable);
+        }
+        return iPlaySoccerRepository.findByDateRange(pageable,startDay,startEnd);
     }
 
 

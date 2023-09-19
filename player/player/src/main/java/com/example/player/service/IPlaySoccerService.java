@@ -4,6 +4,7 @@ import com.example.player.model.PlayerSoccer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface IPlaySoccerService {
@@ -16,5 +17,6 @@ public interface IPlaySoccerService {
     void add(PlayerSoccer playerSoccer);
     void edit(PlayerSoccer playSoccer);
 
-    Page<PlayerSoccer> showListPage(Pageable pageable);
+
+    Page<PlayerSoccer> showListPage(Pageable pageable, String searchName, String startDay, String startEnd);
 }

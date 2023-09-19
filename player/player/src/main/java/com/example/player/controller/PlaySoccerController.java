@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.time.LocalDate;
 
 @Controller
 public class PlaySoccerController {
@@ -26,12 +27,17 @@ public class PlaySoccerController {
     @GetMapping("/")
     public String showList(@RequestParam(defaultValue = "0",required = false) int page,
                            @RequestParam(defaultValue = "",required = false) String searchName,
-            @RequestParam(defaultValue = "2",required = false) int size
+            @RequestParam(defaultValue = "2",required = false) int size,
+            @RequestParam(defaultValue = "",required = false) String startDay,
+            @RequestParam(defaultValue = "",required = false) String endDay
             ,Model model) {
-        Pageable pageable = PageRequest.of(page,size, Sort.by("fullName").ascending());
-        Page<PlayerSoccer> playerSoccers = iPlaySoccerService.showListPage(pageable);
+        Pageable pageable = PageRequest.of(page,size, Sort.by("full_name").descending());
+        Page<PlayerSoccer> playerSoccers = iPlaySoccerService.showListPage(pageable,searchName,startDay,endDay);
         model.addAttribute("list", playerSoccers);
         model.addAttribute("size", size);
+        model.addAttribute("searchName", searchName);
+        model.addAttribute("startDay", startDay);
+        model.addAttribute("endDay", endDay);
         return "list";
     }
 

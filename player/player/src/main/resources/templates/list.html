@@ -6,6 +6,18 @@
 </head>
 <body>
 <div th:insert="untill :: header"></div>
+<form action="/" method="get">
+<div>tìm theo tên</div>
+<input name="searchName">
+<input type="submit">
+
+</form>
+<form action="/" method="get">
+    <div>tìm theo tuổi</div>
+    <input type="date" name="startDay">
+    <input type="date" name="endDay">
+    <input type="submit">
+</form>
 <table>
     <tr>
         <Th>mã cầu thủ</Th>
@@ -25,10 +37,12 @@
         <td><a th:href="@{showEdit/(id=${player.id})}">edit</a></td>
     </tr>
 </table>
-<a th:if="${list.hasPrevious()}" th:href="@{/(page=${list.number-1},size=${size})}">Prev</a>
+<a th:if="${list.hasPrevious()}" th:href="@{/(page=${list.number-1},size=${size},searchName=${searchName},startDay=${startDay},endDay=${endDay})}">Prev</a>
 <span th:text="${list.number+1}"></span>/
 <span th:text="${list.totalPages}"></span>
-<a th:if="${list.hasNext()}" th:href="@{/(page=${list.number+1},size=${size})}">next</a> <br>
+<a th:if="${list.hasNext()}" th:href="@{/(page=${list.number+1},size=${size},searchName=${searchName},startDay=${startDay},endDay=${endDay})}">next</a> <br>
+<!--model.addAttribute("startDay", startDay);-->
+<!--model.addAttribute("endDay", endDay);-->
 <a href="showCreate">thêm mới</a>
 <form action="/" method="get">
     <div>thay doi so luong cua trang</div>
