@@ -10,7 +10,7 @@ public class Position {
     private int id;
     private String name;
     @OneToMany(mappedBy = "position")
-    Set<PlayerSoccer> playerSoccerSet;
+    private Set<PlayerSoccer> playerSoccerSet;
 
     public Position() {
     }

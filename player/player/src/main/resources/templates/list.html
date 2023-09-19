@@ -25,7 +25,17 @@
         <td><a th:href="@{showEdit/(id=${player.id})}">edit</a></td>
     </tr>
 </table>
+<a th:if="${list.hasPrevious()}" th:href="@{/(page=${list.number-1},size=${size})}">Prev</a>
+<span th:text="${list.number+1}"></span>/
+<span th:text="${list.totalPages}"></span>
+<a th:if="${list.hasNext()}" th:href="@{/(page=${list.number+1},size=${size})}">next</a> <br>
 <a href="showCreate">thêm mới</a>
+<form action="/" method="get">
+    <div>thay doi so luong cua trang</div>
+    <input th:value="${size}" name="size">
+    <input type="submit">
+
+</form>
 <div th:replace="untill :: footer"></div>
 </body>
 </html>

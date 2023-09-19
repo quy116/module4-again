@@ -1,8 +1,11 @@
-package com.example.player.service;
+package com.example.player.service.impl;
 
 import com.example.player.model.PlayerSoccer;
 import com.example.player.repository.IPlaySoccerRepository;
+import com.example.player.service.IPlaySoccerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,6 +40,12 @@ public class PlaySoccerService implements IPlaySoccerService {
     @Override
     public void edit(PlayerSoccer playSoccer) {
         iPlaySoccerRepository.save(playSoccer);
+    }
+
+    @Override
+    public Page<PlayerSoccer> showListPage(Pageable pageable) {
+
+        return iPlaySoccerRepository.findAll(pageable);
     }
 
 
