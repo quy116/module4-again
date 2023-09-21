@@ -1,9 +1,10 @@
 package com.example.player.controller;
 
-import com.example.player.model.PlaySoccerDto;
+import com.example.player.dto.PlaySoccerDto;
 import com.example.player.model.PlayerSoccer;
 import com.example.player.service.IPlaySoccerService;
 import com.example.player.service.IPositionService;
+import com.example.player.service.IStatusService;
 import com.example.player.service.ITeamService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
 
 @Controller
 public class PlaySoccerController {
@@ -30,6 +31,8 @@ public class PlaySoccerController {
     private IPositionService iPositionService;
     @Autowired
     private ITeamService iTeamService;
+    @Autowired
+    private IStatusService iStatusService;
 
     @GetMapping("/")
     public String showList(@RequestParam(defaultValue = "0",required = false) int page,
@@ -67,22 +70,33 @@ public class PlaySoccerController {
         model.addAttribute("playSoccerDto", new PlaySoccerDto());
         model.addAttribute("list", iPositionService.showList());
         model.addAttribute("listTeam", iTeamService.showList());
+        model.addAttribute("listStatus", iStatusService.showList());
         return "create";
     }
 
     @PostMapping("/create")
     public String create(@Valid @ModelAttribute PlaySoccerDto playSoccerDto,
                          BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes,
                          Model model) {
         new PlaySoccerDto().validate(playSoccerDto,bindingResult);
         if (bindingResult.hasErrors()){
             model.addAttribute("PlaySoccer", new PlayerSoccer());
             model.addAttribute("list", iPositionService.showList());
             model.addAttribute("listTeam", iTeamService.showList());
+            model.addAttribute("listStatus", iStatusService.showList());
             return "create";
         }
         PlayerSoccer playerSoccer1 = new PlayerSoccer();
-        BeanUtils.copyProperties(playerSoccer1,playSoccerDto);
+        BeanUtils.copyProperties(playSoccerDto,playerSoccer1);
+        if ( iPlaySoccerService.add(playerSoccer1) == false){
+            model.addAttribute("PlaySoccer", new PlayerSoccer());
+            model.addAttribute("list", iPositionService.showList());
+            model.addAttribute("listTeam", iTeamService.showList());
+            model.addAttribute("listStatus", iStatusService.showList());
+            model.addAttribute("mess","dai lai di");
+            return "/create";
+        }
         iPlaySoccerService.add(playerSoccer1);
         return "redirect:/";
     }

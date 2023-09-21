@@ -1,5 +1,8 @@
-package com.example.player.model;
+package com.example.player.dto;
 
+import com.example.player.model.Position;
+import com.example.player.model.Status;
+import com.example.player.model.Team;
 import jdk.nashorn.internal.objects.Global;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -15,18 +18,19 @@ public class PlaySoccerDto implements Validator {
     @NotBlank
     @Pattern(regexp = "^[a-zA-Z0-9 ]+$",message = "không được chứa ký tự đặt biệt")
     private String fullName;
-    @Min(value = 16,message = "lớn hơn 16")
+//    @Min(value = 16,message = "lớn hơn 16")
     private String date;
     @Pattern(regexp = "^[1-9]\\d*$", message = "là số nguyên dương")
     private String experience;
     private String image;
     private Position position;
     private Team team;
+    private Status status;
 
     public PlaySoccerDto() {
     }
 
-    public PlaySoccerDto(int id, String code, String fullName, String date, String experience, String image, Position position, Team team) {
+    public PlaySoccerDto(int id, String code, String fullName, String date, String experience, String image, Position position, Team team, Status status) {
         this.id = id;
         this.code = code;
         this.fullName = fullName;
@@ -35,6 +39,7 @@ public class PlaySoccerDto implements Validator {
         this.image = image;
         this.position = position;
         this.team = team;
+        this.status = status;
     }
 
     public int getId() {
@@ -99,6 +104,14 @@ public class PlaySoccerDto implements Validator {
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override

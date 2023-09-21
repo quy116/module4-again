@@ -34,13 +34,26 @@ public class PlaySoccerService implements IPlaySoccerService {
     }
 
     @Override
-    public void add(PlayerSoccer playerSoccer) {
+    public boolean add(PlayerSoccer playerSoccer) {
+        if (findByName(playerSoccer.getCode())){
+            return false;
+        }
         iPlaySoccerRepository.save(playerSoccer);
+        return true;
     }
 
     @Override
     public void edit(PlayerSoccer playSoccer) {
         iPlaySoccerRepository.save(playSoccer);
+    }
+
+    @Override
+    public boolean findByName(String code) {
+        if(iPlaySoccerRepository.findAllByCode("%" + code + "%") == null){
+            return false;
+        }
+
+        return true;
     }
 
     @Override

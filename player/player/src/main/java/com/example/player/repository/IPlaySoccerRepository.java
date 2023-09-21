@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface IPlaySoccerRepository extends JpaRepository<PlayerSoccer, Integer> {
     @Query(value = "select * from player_soccer where full_name like :searchName", nativeQuery = true)
@@ -16,4 +17,6 @@ public interface IPlaySoccerRepository extends JpaRepository<PlayerSoccer, Integ
     Page<PlayerSoccer> findByDateRange(Pageable pageable,
                                        @Param("startDay") String startDay,
                                        @Param("startEnd") String startEnd);
+    @Query(value = "select * from player_soccer where code like :code", nativeQuery = true)
+    List<PlayerSoccer> findAllByCode(@Param("code") String code);
 }

@@ -7,9 +7,10 @@ public class PlayerSoccer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(unique = true)
     private String code;
     private String fullName;
-    @Column(columnDefinition = "DATE")
+    @Column(columnDefinition = "DATE",unique = true)
     private String date;
     private String experience;
     private String image;
@@ -19,6 +20,9 @@ public class PlayerSoccer {
     @ManyToOne
     @JoinColumn(name = "team_id",referencedColumnName = "id")
     private Team team;
+    @ManyToOne
+    @JoinColumn(name = "status_id",referencedColumnName = "id")
+    private Status status;
     public PlayerSoccer() {
     }
 
@@ -31,6 +35,18 @@ public class PlayerSoccer {
         this.image = image;
         this.position = position;
         this.team = team;
+    }
+
+    public PlayerSoccer(int id, String code, String fullName, String date, String experience, String image, Position position, Team team, Status status) {
+        this.id = id;
+        this.code = code;
+        this.fullName = fullName;
+        this.date = date;
+        this.experience = experience;
+        this.image = image;
+        this.position = position;
+        this.team = team;
+        this.status = status;
     }
 
     public int getId() {
@@ -96,4 +112,13 @@ public class PlayerSoccer {
     public void setTeam(Team team) {
         this.team = team;
     }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
 }

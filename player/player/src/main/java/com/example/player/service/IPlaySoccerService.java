@@ -14,9 +14,9 @@ public interface IPlaySoccerService {
 
     void deleteById(int id);
 
-    void add(PlayerSoccer playerSoccer);
+    boolean add(PlayerSoccer playerSoccer);
     void edit(PlayerSoccer playSoccer);
-
+    boolean findByName(String name);
 
     Page<PlayerSoccer> showListPage(Pageable pageable, String searchName, String startDay, String startEnd);
 }
