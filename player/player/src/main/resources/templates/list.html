@@ -23,14 +23,17 @@
         <Th>mã cầu thủ</Th>
         <Th>họ và tên</Th>
         <Th>vị trí</Th>
-        <Th>ảnh đại diện</Th>
+        <th>team</th>
+        <th>anh</th>
         <th>xem chi tiết</th>
+        <th>team</th>
         <th>xoá</th>
     </tr>
     <tr th:each="player,status:${list}">
         <td th:text="${player.code}"></td>
         <td th:text="${player.fullName}"></td>
         <td th:text="${player.position.name}"></td>
+        <td th:text="${player.team.name}"></td>
         <td><img th:src="${player.image}" alt="mều" style="width: 4rem;height: 4rem"></td>
         <td><a th:href="@{showDetail/(id=${player.id})}">xem chi tiết</a></td>
         <td><a th:href="@{delete/(id=${player.id})}">xoá</a></td>

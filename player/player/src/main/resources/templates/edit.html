@@ -19,6 +19,9 @@
     <select th:field="*{position}">
         <option th:each="p :${list}" th:value="${p.id}" th:text="${p.name}"></option>
     </select>
+    <select th:field="*{team}">
+        <option th:each="p :${listTeam}" th:value="${p.id}" th:text="${p.name}"></option>
+    </select>
     ảnh
     <input th:field="*{image}">
     <button type="submit">lưu</button>

@@ -1,8 +1,11 @@
 package com.example.player.controller;
 
+import com.example.player.model.PlaySoccerDto;
 import com.example.player.model.PlayerSoccer;
 import com.example.player.service.IPlaySoccerService;
 import com.example.player.service.IPositionService;
+import com.example.player.service.ITeamService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,11 +13,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 
 @Controller
@@ -23,6 +28,8 @@ public class PlaySoccerController {
     private IPlaySoccerService iPlaySoccerService;
     @Autowired
     private IPositionService iPositionService;
+    @Autowired
+    private ITeamService iTeamService;
 
     @GetMapping("/")
     public String showList(@RequestParam(defaultValue = "0",required = false) int page,
@@ -57,14 +64,26 @@ public class PlaySoccerController {
 
     @GetMapping("/showCreate")
     public String showCreate(Model model) {
-        model.addAttribute("PlaySoccer", new PlayerSoccer());
+        model.addAttribute("playSoccerDto", new PlaySoccerDto());
         model.addAttribute("list", iPositionService.showList());
+        model.addAttribute("listTeam", iTeamService.showList());
         return "create";
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute PlayerSoccer playerSoccer) {
-        iPlaySoccerService.add(playerSoccer);
+    public String create(@Valid @ModelAttribute PlaySoccerDto playSoccerDto,
+                         BindingResult bindingResult,
+                         Model model) {
+        new PlaySoccerDto().validate(playSoccerDto,bindingResult);
+        if (bindingResult.hasErrors()){
+            model.addAttribute("PlaySoccer", new PlayerSoccer());
+            model.addAttribute("list", iPositionService.showList());
+            model.addAttribute("listTeam", iTeamService.showList());
+            return "create";
+        }
+        PlayerSoccer playerSoccer1 = new PlayerSoccer();
+        BeanUtils.copyProperties(playerSoccer1,playSoccerDto);
+        iPlaySoccerService.add(playerSoccer1);
         return "redirect:/";
     }
 
@@ -73,6 +92,8 @@ public class PlaySoccerController {
         PlayerSoccer playerSoccer = iPlaySoccerService.findById(id);
         model.addAttribute("playSoccer", playerSoccer);
         model.addAttribute("list", iPositionService.showList());
+        model.addAttribute("listTeam", iTeamService.showList());
+
         return "edit";
     }
     @PostMapping ("/edit")

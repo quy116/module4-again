@@ -5,19 +5,26 @@
     <title>Title</title>
 </head>
 <body>
-<form th:object="${PlaySoccer}" action="create" method="post">
+<form th:object="${playSoccerDto}" action="create" method="post">
   mã cầu thủ
   <input th:field="*{code}">
+  <div style="width: 4rem;color: red" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></div> <br>
     họ và tên
   <input th:field="*{fullName}">
+  <div th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></div> <br>
     ngày sinh
   <input th:field="*{date}">
+  <div th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></div><br>
     kinh nghiệm
   <input th:field="*{experience}">
+  <div th:if="${#fields.hasErrors('experience')}" th:errors="*{experience}"></div><br>
     vị trí
   <select th:field="*{position}">
     <option th:each="p :${list}" th:value="${p.id}" th:text="${p.name}"></option>
-  </select>
+  </select> <br>
+  <select th:field="*{team}">
+    <option th:each="p :${listTeam}" th:value="${p.id}" th:text="${p.name}"></option>
+  </select> <br>
     ảnh
     <input th:field="*{image}">
     <button type="submit">lưu</button>
