@@ -9,20 +9,24 @@ public class PlayerSoccer {
     private int id;
     @Column(unique = true)
     private String code;
+    @Column(nullable = false)
     private String fullName;
-    @Column(columnDefinition = "DATE",unique = true)
+    @Column(columnDefinition = "DATE", unique = true, nullable = false)
     private String date;
+    @Column(nullable = false)
     private String experience;
+    @Column(nullable = false)
     private String image;
     @ManyToOne
-    @JoinColumn(name = "position_id",referencedColumnName = "id")
+    @JoinColumn(name = "position_id", referencedColumnName = "id")
     private Position position;
     @ManyToOne
-    @JoinColumn(name = "team_id",referencedColumnName = "id")
+    @JoinColumn(name = "team_id", referencedColumnName = "id")
     private Team team;
     @ManyToOne
-    @JoinColumn(name = "status_id",referencedColumnName = "id")
+    @JoinColumn(name = "status_id", referencedColumnName = "id")
     private Status status;
+
     public PlayerSoccer() {
     }
 
