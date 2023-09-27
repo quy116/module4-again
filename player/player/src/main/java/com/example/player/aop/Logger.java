@@ -28,7 +28,6 @@ public class Logger {
         System.out.println("Số lượng cầu thủ đăng ký đá: " + playerCount);
     }
 
-    // Thêm một @AfterReturning advice để giảm số lượng cầu thủ khi gọi reserveRegistration
     @AfterReturning("execution(* com.example.player.service.impl.PlaySoccerService.reserveRegistration(..))")
     public void decreasePlayerCount() {
         playerCount--;
