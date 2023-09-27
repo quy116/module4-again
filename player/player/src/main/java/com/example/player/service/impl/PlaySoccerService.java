@@ -1,6 +1,7 @@
 package com.example.player.service.impl;
 
 import com.example.player.model.PlayerSoccer;
+import com.example.player.model.Status;
 import com.example.player.repository.IPlaySoccerRepository;
 import com.example.player.service.IPlaySoccerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,24 @@ public class PlaySoccerService implements IPlaySoccerService {
          return   iPlaySoccerRepository.findAllByFullNameContaining("%" + searchName + "%", pageable);
         }
         return iPlaySoccerRepository.findByDateRange(pageable,startDay,startEnd);
+    }
+
+    @Override
+    public void signUpForSoccer(int id) {
+        PlayerSoccer playerSoccer = iPlaySoccerRepository.findById(id).get();
+        Status newStatus = new Status();
+        newStatus.setId(2);
+        playerSoccer.setStatus(newStatus);
+        iPlaySoccerRepository.save(playerSoccer);
+    }
+
+    @Override
+    public void reserveRegistration(int id) {
+        PlayerSoccer playerSoccer = iPlaySoccerRepository.findById(id).get();
+        Status newStatus = new Status();
+        newStatus.setId(1);
+        playerSoccer.setStatus(newStatus);
+        iPlaySoccerRepository.save(playerSoccer);
     }
 
 

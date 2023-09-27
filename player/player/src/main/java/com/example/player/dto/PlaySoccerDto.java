@@ -23,14 +23,14 @@ public class PlaySoccerDto implements Validator {
     @Pattern(regexp = "^[1-9]\\d*$", message = "là số nguyên dương")
     private String experience;
     private String image;
-    private Position position;
-    private Team team;
-    private Status status;
+    private PositionDto position;
+    private TeamDto team;
+    private StatusDto status;
 
     public PlaySoccerDto() {
     }
 
-    public PlaySoccerDto(int id, String code, String fullName, String date, String experience, String image, Position position, Team team, Status status) {
+    public PlaySoccerDto(int id, String code, String fullName, String date, String experience, String image, PositionDto position, TeamDto team, StatusDto status) {
         this.id = id;
         this.code = code;
         this.fullName = fullName;
@@ -90,27 +90,27 @@ public class PlaySoccerDto implements Validator {
         this.image = image;
     }
 
-    public Position getPosition() {
+    public PositionDto getPosition() {
         return position;
     }
 
-    public void setPosition(Position position) {
+    public void setPosition(PositionDto position) {
         this.position = position;
     }
 
-    public Team getTeam() {
+    public TeamDto getTeam() {
         return team;
     }
 
-    public void setTeam(Team team) {
+    public void setTeam(TeamDto team) {
         this.team = team;
     }
 
-    public Status getStatus() {
+    public StatusDto getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(StatusDto status) {
         this.status = status;
     }
 

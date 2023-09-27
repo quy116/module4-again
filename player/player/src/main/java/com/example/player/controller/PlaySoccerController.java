@@ -35,7 +35,7 @@ public class PlaySoccerController {
     private IStatusService iStatusService;
 
     @GetMapping("/")
-    public String showList(@RequestParam(defaultValue = "0",required = false) int page,
+    public String showListTable(@RequestParam(defaultValue = "0",required = false) int page,
                            @RequestParam(defaultValue = "",required = false) String searchName,
             @RequestParam(defaultValue = "2",required = false) int size,
             @RequestParam(defaultValue = "",required = false) String startDay,
@@ -51,8 +51,8 @@ public class PlaySoccerController {
         return "list";
     }
 
-    @GetMapping("/showDetail")
-    public String showDetail(@RequestParam int id, Model model) {
+    @GetMapping("/showTableDetail")
+    public String showTableDetail(@RequestParam int id, Model model) {
         PlayerSoccer playerSoccer = iPlaySoccerService.findById(id);
         model.addAttribute("playSoccer", playerSoccer);
         model.addAttribute("id", playerSoccer.getId());
@@ -65,8 +65,8 @@ public class PlaySoccerController {
         return "redirect:/";
     }
 
-    @GetMapping("/showCreate")
-    public String showCreate(Model model) {
+    @GetMapping("/showFormCreate")
+    public String showFormCreate(Model model) {
         model.addAttribute("playSoccerDto", new PlaySoccerDto());
         model.addAttribute("list", iPositionService.showList());
         model.addAttribute("listTeam", iTeamService.showList());
@@ -101,8 +101,8 @@ public class PlaySoccerController {
         return "redirect:/";
     }
 
-    @GetMapping("/showEdit{id}")
-    public String showEdit(@RequestParam int id, Model model) {
+    @GetMapping("/showFormEdit")
+    public String showFormEdit(@RequestParam int id, Model model) {
         PlayerSoccer playerSoccer = iPlaySoccerService.findById(id);
         model.addAttribute("playSoccer", playerSoccer);
         model.addAttribute("list", iPositionService.showList());
@@ -113,6 +113,16 @@ public class PlaySoccerController {
     @PostMapping ("/edit")
     public String edit(PlayerSoccer playSoccer) {
         iPlaySoccerService.edit(playSoccer);
+        return "redirect:/";
+    }
+    @GetMapping("/signUpForSoccer")
+    public String signUpForSoccer (@RequestParam int id){
+        iPlaySoccerService.signUpForSoccer(id);
+        return "redirect:/";
+    }
+    @GetMapping("/reserveRegistration")
+    public String reserveRegistration (@RequestParam int id){
+        iPlaySoccerService.reserveRegistration(id);
         return "redirect:/";
     }
 }

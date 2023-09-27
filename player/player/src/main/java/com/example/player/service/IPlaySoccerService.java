@@ -19,4 +19,8 @@ public interface IPlaySoccerService {
     boolean findByName(String name);
 
     Page<PlayerSoccer> showListPage(Pageable pageable, String searchName, String startDay, String startEnd);
+
+    void signUpForSoccer(int id);
+
+    void reserveRegistration(int id);
 }
