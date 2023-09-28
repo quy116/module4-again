@@ -18,33 +18,49 @@
     <input type="date" name="endDay">
     <input type="submit">
 </form>
-<table>
-    <tr>
-        <Th>mã cầu thủ</Th>
-        <Th>họ và tên</Th>
-        <Th>vị trí</Th>
-        <th>team</th>
-        <th>trạng thái</th>
-        <th>anh</th>
-        <th>xem chi tiết</th>
-        <th>team</th>
-        <th>xoá</th>
-        <th>trạng thái cầu thủ1</th>
-    </tr>
-    <tr th:each="player,status:${list}">
-        <td th:text="${player.code}"></td>
-        <td th:text="${player.fullName}"></td>
-        <td th:text="${player.position.name}"></td>
-        <td th:text="${player.team.name}"></td>
-        <td th:text="${player.status.name}"></td>
-        <td><img th:src="${player.image}" alt="mều" style="width: 4rem;height: 4rem"></td>
-        <td><a th:href="@{showTableDetail/(id=${player.id})}">xem chi tiết</a></td>
-        <td><a th:href="@{delete/(id=${player.id})}">xoá</a></td>
-        <td><a th:href="@{showFormEdit/(id=${player.id})}">edit</a></td>
-        <td><a th:if="${player.status.id == 1}" th:href="@{signUpForSoccer/(id=${player.id})}">đăng ký đá</a></td>
-        <td><a th:if="${player.status.id == 2}" th:href="@{reserveRegistration/(id=${player.id})}">đăng ký dự bị</a></td>
-    </tr>
-</table>
+<!--<table>-->
+<!--    <tr>-->
+<!--        <Th>mã cầu thủ</Th>-->
+<!--        <Th>họ và tên</Th>-->
+<!--        <Th>vị trí</Th>-->
+<!--        <th>team</th>-->
+<!--        <th>trạng thái</th>-->
+<!--        <th>anh</th>-->
+<!--        <th>xem chi tiết</th>-->
+<!--        <th>team</th>-->
+<!--        <th>xoá</th>-->
+<!--        <th>trạng thái cầu thủ1</th>-->
+<!--    </tr>-->
+<!--    <tr th:each="player,status:${list}">-->
+<!--        <td th:text="${player.code}"></td>-->
+<!--        <td th:text="${player.fullName}"></td>-->
+<!--        <td th:text="${player.position.name}"></td>-->
+<!--        <td th:text="${player.team.name}"></td>-->
+<!--        <td th:text="${player.status.name}"></td>-->
+<!--        <td><img th:src="${player.image}" alt="mều" style="width: 4rem;height: 4rem"></td>-->
+<!--        <td><a th:href="@{showTableDetail/(id=${player.id})}">xem chi tiết</a></td>-->
+<!--        <td><a th:href="@{delete/(id=${player.id})}">xoá</a></td>-->
+<!--        <td><a th:href="@{showFormEdit/(id=${player.id})}">edit</a></td>-->
+<!--        <td><a th:if="${player.status.id == 1}" th:href="@{signUpForSoccer/(id=${player.id})}">đăng ký đá</a></td>-->
+<!--        <td><a th:if="${player.status.id == 2}" th:href="@{reserveRegistration/(id=${player.id})}">đăng ký dự bị</a></td>-->
+<!--    </tr>-->
+<!--</table>-->
+<div class="card-container" style=" display: grid; grid-template-columns: repeat(4,1fr); margin-top: 2rem ">
+    <div th:each="item : ${list}" class="card-content" style="width: 20rem;height:30rem;background-color: whitesmoke; border-radius: 10px">
+        <div class="img" style="border-radius: 10px">
+            <img style="width: 20rem; height: 20rem; object-fit: fill; "
+                 th:src="${item.image}"
+                 alt="">
+        </div>
+        <div class="item"style="padding:  2rem 2rem 1rem ;" th:text="${item.fullName}"></div>
+        <div class="item">
+            <div class="item-btn" style="display: flex;justify-content: space-between; padding: 2rem">
+                <a th:href="@{favourite/(id=${item.id})}" style="padding: 0.5rem; color: red;background-color: lavender; border-radius: 10px" href="">yeu thich</a>
+                <a th:href="@{showFormEdit(id=${item.id})}" style="padding: 0.5rem;color: red; background-color: lavender; border-radius: 10px" href="" >xem chi tiet</a>
+            </div>
+        </div>
+    </div>
+</div>
 <a th:if="${list.hasPrevious()}" th:href="@{/(page=${list.number-1},size=${size},searchName=${searchName},startDay=${startDay},endDay=${endDay})}">Prev</a>
 <span th:text="${list.number+1}"></span>/
 <span th:text="${list.totalPages}"></span>

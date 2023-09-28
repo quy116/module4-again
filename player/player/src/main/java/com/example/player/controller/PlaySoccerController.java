@@ -1,5 +1,6 @@
 package com.example.player.controller;
 
+import com.example.player.dto.DtoCardPayer;
 import com.example.player.dto.PlaySoccerDto;
 import com.example.player.model.PlayerSoccer;
 import com.example.player.service.IPlaySoccerService;
@@ -15,15 +16,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
 @Controller
+@SessionAttributes("cart")
 public class PlaySoccerController {
     @Autowired
     private IPlaySoccerService iPlaySoccerService;
@@ -33,16 +32,20 @@ public class PlaySoccerController {
     private ITeamService iTeamService;
     @Autowired
     private IStatusService iStatusService;
+    @ModelAttribute("cart")
+    public DtoCardPayer initCartDto(){
+        return new DtoCardPayer();
+    }
 
     @GetMapping("/")
-    public String showListTable(@RequestParam(defaultValue = "0",required = false) int page,
-                           @RequestParam(defaultValue = "",required = false) String searchName,
-            @RequestParam(defaultValue = "2",required = false) int size,
-            @RequestParam(defaultValue = "",required = false) String startDay,
-            @RequestParam(defaultValue = "",required = false) String endDay
-            ,Model model) {
-        Pageable pageable = PageRequest.of(page,size, Sort.by("full_name").descending());
-        Page<PlayerSoccer> playerSoccers = iPlaySoccerService.showListPage(pageable,searchName,startDay,endDay);
+    public String showListTable(@RequestParam(defaultValue = "0", required = false) int page,
+                                @RequestParam(defaultValue = "", required = false) String searchName,
+                                @RequestParam(defaultValue = "4", required = false) int size,
+                                @RequestParam(defaultValue = "", required = false) String startDay,
+                                @RequestParam(defaultValue = "", required = false) String endDay
+            , Model model) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("full_name").descending());
+        Page<PlayerSoccer> playerSoccers = iPlaySoccerService.showListPage(pageable, searchName, startDay, endDay);
         model.addAttribute("list", playerSoccers);
         model.addAttribute("size", size);
         model.addAttribute("searchName", searchName);
@@ -79,8 +82,8 @@ public class PlaySoccerController {
                          BindingResult bindingResult,
                          RedirectAttributes redirectAttributes,
                          Model model) {
-        new PlaySoccerDto().validate(playSoccerDto,bindingResult);
-        if (bindingResult.hasErrors()){
+        new PlaySoccerDto().validate(playSoccerDto, bindingResult);
+        if (bindingResult.hasErrors()) {
             model.addAttribute("PlaySoccer", new PlayerSoccer());
             model.addAttribute("list", iPositionService.showList());
             model.addAttribute("listTeam", iTeamService.showList());
@@ -88,13 +91,13 @@ public class PlaySoccerController {
             return "create";
         }
         PlayerSoccer playerSoccer1 = new PlayerSoccer();
-        BeanUtils.copyProperties(playSoccerDto,playerSoccer1);
-        if ( iPlaySoccerService.add(playerSoccer1) == false){
+        BeanUtils.copyProperties(playSoccerDto, playerSoccer1);
+        if (iPlaySoccerService.add(playerSoccer1) == false) {
             model.addAttribute("PlaySoccer", new PlayerSoccer());
             model.addAttribute("list", iPositionService.showList());
             model.addAttribute("listTeam", iTeamService.showList());
             model.addAttribute("listStatus", iStatusService.showList());
-            model.addAttribute("mess","dai lai di");
+            model.addAttribute("mess", "dai lai di");
             return "/create";
         }
         iPlaySoccerService.add(playerSoccer1);
@@ -110,19 +113,34 @@ public class PlaySoccerController {
 
         return "edit";
     }
-    @PostMapping ("/edit")
+
+    @PostMapping("/edit")
     public String edit(PlayerSoccer playSoccer) {
         iPlaySoccerService.edit(playSoccer);
         return "redirect:/";
     }
+
     @GetMapping("/signUpForSoccer")
-    public String signUpForSoccer (@RequestParam int id){
+    public String signUpForSoccer(@RequestParam int id) {
         iPlaySoccerService.signUpForSoccer(id);
         return "redirect:/";
     }
+
     @GetMapping("/reserveRegistration")
-    public String reserveRegistration (@RequestParam int id){
+    public String reserveRegistration(@RequestParam int id) {
         iPlaySoccerService.reserveRegistration(id);
         return "redirect:/";
+    }
+
+    @GetMapping("/favourite")
+    public String favourite(@RequestParam int id,
+                            @SessionAttribute(value = "cart",required = false)
+                                    DtoCardPayer dtoCardPayer,
+                            Model model) {
+        PlayerSoccer playerSoccer = iPlaySoccerService.findById(id);
+        PlaySoccerDto playSoccerDto = new PlaySoccerDto();
+        BeanUtils.copyProperties(playerSoccer,playSoccerDto);
+        dtoCardPayer.addPlayer(playSoccerDto);
+        return "redirect:/cart";
     }
 }
