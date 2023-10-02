@@ -19,35 +19,33 @@
       </table>
     </body>
 
-    <form th:object="${playSoccerDto}" action="create" method="post">
-      mã cầu thủ
-      <input id="code" />
-      họ và tên
-      <input id="fullName" />
-      ngày sinh
-      <input id="date" />
-      kinh nghiệm
-      <input id="experience" />
-      vị trí
-      <select id="position">
-        <option value="1">GIÁM DỐC</option>
-        <option value="2">CẦU THỦ</option>
-      </select>
-      <br />
-      <select id="team">
-        <option value="1">MEO MEO</option>
-        <option value="2">Gâu Gâu</option>
-      </select>
-      <br />
-      <select id="status">
-        <option value="1">dự bị</option>
-      </select>
-      <br />
+    mã cầu thủ
+    <input id="code" />
+    họ và tên
+    <input id="fullName" />
+    ngày sinh
+    <input id="date" />
+    kinh nghiệm
+    <input id="experience" />
+    vị trí
+    <select id="position">
+      <option value="1">GIÁM DỐC</option>
+      <option value="2">CẦU THỦ</option>
+    </select>
+    <br />
+    <select id="team">
+      <option value="1">MEO MEO</option>
+      <option value="2">Gâu Gâu</option>
+    </select>
+    <br />
+    <select id="status">
+      <option value="1">dự bị</option>
+    </select>
+    <br />
 
-      ảnh
-      <input id="image" />
-      <button id="btn-add" type="submit">lưu</button>
-    </form>
+    ảnh
+    <input id="image" />
+    <button id="btn-add">lưu</button>
     <script src="player/code.jquery.com_jquery-3.7.1.min.js"></script>
     <script>
       display = () => {
@@ -78,6 +76,7 @@
         let fullName = $("#fullName").val();
         let experience = $("#experience").val();
         let position = $("#position").val();
+        let date = $("#date").val();
         let team = $("#team").val();
         let status = $("#status").val();
         let image = $("#image").val();
@@ -85,6 +84,7 @@
           code: code,
           fullName: fullName,
           experience: experience,
+          date: date,
           position: {
             id: position,
           },

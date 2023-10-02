@@ -23,15 +23,26 @@ public class PlaySoccerDto implements Validator {
     @Pattern(regexp = "^[1-9]\\d*$", message = "là số nguyên dương")
     private String experience;
     private String image;
-    private PositionDto position;
-    private TeamDto team;
-    private StatusDto status;
+    private Position position;
+    private Team team;
+    private Status status;
 
     public PlaySoccerDto() {
     }
 
-    public PlaySoccerDto(int id, String code, String fullName, String date, String experience, String image, PositionDto position, TeamDto team, StatusDto status) {
+    public PlaySoccerDto(int id, String code, String fullName, String date, String experience, String image, Position position, Team team, Status status) {
         this.id = id;
+        this.code = code;
+        this.fullName = fullName;
+        this.date = date;
+        this.experience = experience;
+        this.image = image;
+        this.position = position;
+        this.team = team;
+        this.status = status;
+    }
+
+    public PlaySoccerDto(String code, String fullName, String date, String experience, String image, Position position, Team team, Status status) {
         this.code = code;
         this.fullName = fullName;
         this.date = date;
@@ -90,27 +101,27 @@ public class PlaySoccerDto implements Validator {
         this.image = image;
     }
 
-    public PositionDto getPosition() {
+    public Position getPosition() {
         return position;
     }
 
-    public void setPosition(PositionDto position) {
+    public void setPosition(Position position) {
         this.position = position;
     }
 
-    public TeamDto getTeam() {
+    public Team getTeam() {
         return team;
     }
 
-    public void setTeam(TeamDto team) {
+    public void setTeam(Team team) {
         this.team = team;
     }
 
-    public StatusDto getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(StatusDto status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

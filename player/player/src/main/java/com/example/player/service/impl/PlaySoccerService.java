@@ -36,9 +36,6 @@ public class PlaySoccerService implements IPlaySoccerService {
 
     @Override
     public boolean add(PlayerSoccer playerSoccer) {
-        if (findByName(playerSoccer.getCode())){
-            return false;
-        }
         iPlaySoccerRepository.save(playerSoccer);
         return true;
     }
