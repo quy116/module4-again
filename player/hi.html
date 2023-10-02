@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <body>
+      <table>
+        <tr>
+          <th>id</th>
+          <th>code</th>
+          <th>fullName</th>
+          <th>date</th>
+          <th>team</th>
+        </tr>
+        <tbody class="content"></tbody>
+      </table>
+    </body>
+
+    <form th:object="${playSoccerDto}" action="create" method="post">
+      mã cầu thủ
+      <input id="code" />
+      họ và tên
+      <input id="fullName" />
+      ngày sinh
+      <input id="date" />
+      kinh nghiệm
+      <input id="experience" />
+      vị trí
+      <select id="position">
+        <option value="1">GIÁM DỐC</option>
+        <option value="2">CẦU THỦ</option>
+      </select>
+      <br />
+      <select id="team">
+        <option value="1">MEO MEO</option>
+        <option value="2">Gâu Gâu</option>
+      </select>
+      <br />
+      <select id="status">
+        <option value="1">dự bị</option>
+      </select>
+      <br />
+
+      ảnh
+      <input id="image" />
+      <button id="btn-add" type="submit">lưu</button>
+    </form>
+    <script src="player/code.jquery.com_jquery-3.7.1.min.js"></script>
+    <script>
+      display = () => {
+        let content = "";
+        $.ajax({
+          contentType: "application/json",
+          method: "Get",
+          dataType: "json",
+          url: "http://localhost:8080/api/player/list",
+          success: (data) => {
+            console.log(data);
+            for (let i = 0; i < data.length; i++) {
+              content += `<tr>
+                              <td>${data[i].id}</td>
+                              <td>${data[i].code}</td>
+                              <td>${data[i].fullName}</td>
+                              <td>${data[i].date}</td>
+                              <td>${data[i].team.name}</td>
+                              `;
+            }
+            $(".content").html(content);
+          },
+        });
+      };
+      display();
+      $("#btn-add").click(() => {
+        let code = $("#code").val();
+        let fullName = $("#fullName").val();
+        let experience = $("#experience").val();
+        let position = $("#position").val();
+        let team = $("#team").val();
+        let status = $("#status").val();
+        let image = $("#image").val();
+        let playSoccerDto = {
+          code: code,
+          fullName: fullName,
+          experience: experience,
+          position: {
+            id: position,
+          },
+          team: {
+            id: team,
+          },
+          status: {
+            id: status,
+          },
+          image: image,
+        };
+        $.ajax({
+          contentType: "application/json",
+          method: "post",
+          dataType: "json",
+          data: JSON.stringify(playSoccerDto),
+          url: "http://localhost:8080/api/player/add",
+          complete: () => {
+            display();
+          },
+        });
+      });
+    </script>
+  </body>
+</html>

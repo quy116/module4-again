@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/player/")
+@CrossOrigin("*")
 public class RestPlayerController {
     @Autowired
     private IPlaySoccerService iPlaySoccerService;

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <th>id</th>
+        <th>code</th>
+        <th>fullName</th>
+        <th>date</th>
+        <th>team</th>
+      </tr>
+      <tbody class="content"></tbody>
+    </table>
+  </body>
+  <script src="player/code.jquery.com_jquery-3.7.1.min.js"></script>
+
+  <script>
+    display = () => {
+      let content = "";
+      $.ajax({
+        contentType: "application/json",
+        method: "GET",
+        dataType: "JSON",
+        url: "http://localhost:8080/api/player/list",
+        success: (data) => {
+          console.log(data.content);
+          for (let i = 0; i < data.content; i++) {
+            content += `<tr>
+                          <td>${data.content[i].id}</td>
+                          <td>${data.content[i].fullName}</td>
+                          <td>${data.content[i].fullName}</td>
+                          <td>${data.content[i].date}</td>
+                          <td>${data.content[i].team.name}</td>
+                          `;
+          }
+          $(".content").html(content);
+        },
+      });
+    };
+    display();
+  </script>
+</html>
