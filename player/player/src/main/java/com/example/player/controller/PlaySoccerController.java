@@ -1,6 +1,6 @@
 package com.example.player.controller;
 
-import com.example.player.dto.DtoCardPayer;
+import com.example.player.dto.PlayerCardDto;
 import com.example.player.dto.PlaySoccerDto;
 import com.example.player.model.PlayerSoccer;
 import com.example.player.service.IPlaySoccerService;
@@ -19,6 +19,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @Controller
@@ -32,9 +35,10 @@ public class PlaySoccerController {
     private ITeamService iTeamService;
     @Autowired
     private IStatusService iStatusService;
+
     @ModelAttribute("cart")
-    public DtoCardPayer initCartDto(){
-        return new DtoCardPayer();
+    public PlayerCardDto initCartDto() {
+        return new PlayerCardDto();
     }
 
     @GetMapping("/")
@@ -134,13 +138,27 @@ public class PlaySoccerController {
 
     @GetMapping("/favourite")
     public String favourite(@RequestParam int id,
-                            @SessionAttribute(value = "cart",required = false)
-                                    DtoCardPayer dtoCardPayer,
-                            Model model) {
+                            @SessionAttribute(value = "cart")
+                            PlayerCardDto playerCardDto,
+                            HttpServletResponse httpServletResponse,
+                            Model model,
+                            RedirectAttributes redirectAttributes) {
         PlayerSoccer playerSoccer = iPlaySoccerService.findById(id);
         PlaySoccerDto playSoccerDto = new PlaySoccerDto();
-        BeanUtils.copyProperties(playerSoccer,playSoccerDto);
-        dtoCardPayer.addPlayer(playSoccerDto);
-        return "redirect:/cart";
+        BeanUtils.copyProperties(playerSoccer, playSoccerDto);
+        playerCardDto.addPlayer(playSoccerDto);
+        Cookie cookie = new Cookie("cardId", id + "");
+        cookie.setMaxAge(30);
+        cookie.setPath("/");
+        httpServletResponse.addCookie(cookie);
+        redirectAttributes.addFlashAttribute("mess", "cầu thủ này đã đc yeu thích");
+        return "redirect:/";
+    }
+
+    @GetMapping("/showListFavourite")
+    public String showListFavourite(@CookieValue(defaultValue = "-1", required = false) int cardId, Model model) {
+    PlayerSoccer playerSoccer = iPlaySoccerService.findById(cardId);
+    model.addAttribute("playerSoccer",playerSoccer);
+    return "detail";
     }
 }

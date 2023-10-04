@@ -27,7 +27,7 @@ public class RestPlayerController {
         return new ResponseEntity<>(list,HttpStatus.OK);
     }
 
-    @GetMapping("detail{id}")
+    @GetMapping("detail/{id}")
     public ResponseEntity<PlayerSoccer> detail(@PathVariable int id) {
         PlayerSoccer playerSoccer = iPlaySoccerService.findById(id);
         if (playerSoccer == null) {
@@ -45,7 +45,7 @@ public class RestPlayerController {
         return new ResponseEntity<>("ok", HttpStatus.OK);
     }
 
-    @PatchMapping("edit{id}")
+    @PatchMapping("edit/{id}")
     public ResponseEntity<?> edit(@PathVariable int id, @RequestBody PlaySoccerDto playSoccerDto) {
         PlayerSoccer playerSoccer = iPlaySoccerService.findById(id);
         if (playerSoccer == null) {

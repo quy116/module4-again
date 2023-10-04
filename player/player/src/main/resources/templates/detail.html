@@ -15,13 +15,9 @@
         <Th>vị trí</Th>
         <Th>ảnh đại diện</Th>
     </tr>
-    <tr th:each="e ,status: ${cart.getMap()}">
-        <td th:text="${e.key.fullName}"></td>
-        <td th:text="${e.key.date}"></td>
-        <td th:text="${e.key.experience}"></td>
-        <td th:text="${e.key.position}"></td>
-        <td th:text="${e.key.code}"></td>
-        <td th:text="${e.key.team}"></td>
+    <tr th:object="${playerSoccer}">
+        <td th:text="*{fullName}"></td>
+        <td th:text="*{date}"></td>
 
 <!--        <td><a th:href="@{delete/(id=${id})}">xoá</a></td>-->
 
